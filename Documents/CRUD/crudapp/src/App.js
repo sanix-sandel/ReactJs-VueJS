@@ -18,8 +18,22 @@ class App extends Component{
     //console.log(event.target.name, event.target.value);
   }
 
+  addTodo=()=>{
+    //console.log('clicked');
+    const newTodo={
+      texte:this.state.newTodo,
+      id:this.state.todos[this.state.todos.length-1].id+1
+       
+    }
+    const Todos=this.state.todos;
+    Todos.push(newTodo);
+    this.setState({todos:Todos, newTodo:''});
+    
+    console.log(Todos); 
+  }
+
   render(){
-    console.log(this.state.newTodo)
+    //console.log(this.state.newTodo)
     return (
       <div className="App">
         <header className="App-header">
@@ -38,7 +52,8 @@ class App extends Component{
         </header>
 
         <div className="container">
-          <input type="text" name="todo" className="my-4 form-control" onChange={this.handleChange}/>
+          <input type="text" name="todo" placeholder='Add todo' className="my-4 form-control" onChange={this.handleChange}/>
+          <button onClick={this.addTodo} className="btn-info mb-3 form-control">Add Todo</button>
 
           <ul className="list-group">
             
