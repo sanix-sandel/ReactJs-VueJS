@@ -10,7 +10,8 @@ class App extends Component{
       {id:1, texte:"Je mange"},
       {id:2, texte:"je danse"},
       {id:3, texte:"Je chante"}
-    ]
+    ],
+    editing:false
   }
 
   handleChange=(event)=>{
@@ -39,6 +40,11 @@ class App extends Component{
     console.log(index);
   }
 
+  updateTodo=(id)=>{
+    const todo=this.state.todos[id];
+    this.setState({editing:true, newTodo:todo.texte});
+  }
+
   render(){
     //console.log(this.state.newTodo)
     return (
@@ -60,14 +66,23 @@ class App extends Component{
 
         <div className="container">
           <input type="text" name="todo" placeholder='Add todo' className="my-4 form-control" onChange={this.handleChange}/>
-          <button onClick={this.addTodo} className="btn-info mb-3 form-control">Add Todo</button>
+          <button onClick={this.addTodo} className="btn-info mb-3 form-control">
+            {this.state.editing ? 'Update':'Add Todo'}
+          </button>
 
           <ul className="list-group">
             
             {this.state.todos.map(todo=>
               <li className="list-group-item" key={todo.id}>
+                <button onClick={()=>{this.updateTodo(todo.id)}} className="btn-sm mr-4 btn btn-info">
+                  U
+                </button>
+                
                 {todo.texte}
-                <button onClick={()=>{this.deleteTodo(todo.id)}} className="btn-sm ml-4 btn btn-danger">X</button>
+                
+                <button onClick={()=>{this.deleteTodo(todo.id)}} className="btn-sm ml-4 btn btn-danger">
+                  X
+                </button>
               </li>  
             )}
 
