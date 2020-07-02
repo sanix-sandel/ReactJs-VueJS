@@ -29,7 +29,14 @@ class App extends Component{
     Todos.push(newTodo);
     this.setState({todos:Todos, newTodo:''});
     
-    console.log(Todos); 
+    //console.log(Todos); 
+  }
+
+  deleteTodo=(index)=>{
+    const todos=this.state.todos;
+    delete todos[index];
+    this.setState({todos:todos});
+    console.log(index);
   }
 
   render(){
@@ -58,7 +65,10 @@ class App extends Component{
           <ul className="list-group">
             
             {this.state.todos.map(todo=>
-              <li className="list-group-item" key={todo.id}>{todo.texte}</li>  
+              <li className="list-group-item" key={todo.id}>
+                {todo.texte}
+                <button onClick={()=>{this.deleteTodo(todo.id)}} className="btn-sm ml-4 btn btn-danger">X</button>
+              </li>  
             )}
 
           </ul>
