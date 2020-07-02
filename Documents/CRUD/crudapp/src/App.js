@@ -15,6 +15,14 @@ class App extends Component{
     editing:false
   }
 
+  generateTodoId=()=>{
+    const lastTodo=this.state.todos[this.todos.length-1];
+    if (lastTodo){
+      return lastTodo.id+1;
+    }
+    return 1;
+  }
+
   handleChange=(event)=>{
     this.setState({newTodo:event.target.value});
     //console.log(event.target.name, event.target.value);
@@ -24,8 +32,8 @@ class App extends Component{
     //console.log('clicked');
     const newTodo={
       texte:this.state.newTodo,
-      id:this.state.todos[this.state.todos.length-1].id+1
-       
+     // id:this.state.todos[this.state.todos.length-1].id+1
+      id:this.generateTodoId
     }
     const Todos=this.state.todos;
     Todos.push(newTodo);
