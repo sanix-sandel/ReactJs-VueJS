@@ -6,10 +6,11 @@ import './App.css';
 class App extends Component{
   state={
     newTodo:'',
+    editingId:null,
     todos:[
-      {id:1, texte:"Je mange"},
-      {id:2, texte:"je danse"},
-      {id:3, texte:"Je chante"}
+      {id:0, texte:"Je mange"},
+      {id:1, texte:"je danse"},
+      {id:2, texte:"Je chante"}
     ],
     editing:false
   }
@@ -36,13 +37,27 @@ class App extends Component{
   deleteTodo=(index)=>{
     const todos=this.state.todos;
     delete todos[index];
-    this.setState({todos:todos});
-    console.log(index);
+    this.setState({todos});
+    //console.log(index);
   }
 
-  updateTodo=(id)=>{
+  editTodo=(id)=>{
     const todo=this.state.todos[id];
-    this.setState({editing:true, newTodo:todo.texte});
+    this.setState({editing:true, newTodo:todo.texte, editingId:id});
+  }
+
+  updateTodo=()=>{
+    const todo=this.state.todos[this.state.editingId];
+    todo.texte=this.state.newTodo;
+
+    const todos=this.state.todos;
+    todos[this.state.editingId]=todo;
+    this.setState({
+      todos,
+      editing:false,
+      editingId:null,
+      newTodo:''
+    })
   }
 
   render(){
@@ -66,7 +81,7 @@ class App extends Component{
 
         <div className="container">
           <input type="text" name="todo" placeholder='Add todo' className="my-4 form-control" onChange={this.handleChange}/>
-          <button onClick={this.addTodo} className="btn-info mb-3 form-control">
+          <button onClick={this.state.editing ? this.updateTodo:this.addTodo} className="btn-info mb-3 form-control">
             {this.state.editing ? 'Update':'Add Todo'}
           </button>
 
@@ -74,7 +89,7 @@ class App extends Component{
             
             {this.state.todos.map(todo=>
               <li className="list-group-item" key={todo.id}>
-                <button onClick={()=>{this.updateTodo(todo.id)}} className="btn-sm mr-4 btn btn-info">
+                <button onClick={()=>{this.editTodo(todo.id)}} className="btn-sm mr-4 btn btn-info">
                   U
                 </button>
                 
