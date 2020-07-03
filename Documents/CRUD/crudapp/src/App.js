@@ -7,7 +7,7 @@ import ListItem from './ListItem.js'
 class App extends Component{
   state={
     newTodo:'',
-    editingId:null,
+    editingId:false,
     todos:[
       {id:0, texte:"Je mange"},
       {id:1, texte:"je danse"},
@@ -89,22 +89,36 @@ class App extends Component{
         </header>
 
         <div className="container">
-          <input type="text" name="todo" placeholder='Add todo' className="my-4 form-control" onChange={this.handleChange}/>
-          <button onClick={this.state.editing ? this.updateTodo:this.addTodo} className="btn-info mb-3 form-control">
+
+          
+          <input type="text" 
+            name="todo" 
+            placeholder='Add todo' 
+            className="my-4 form-control" 
+            onChange={this.handleChange}
+          />
+
+          <button 
+            onClick={this.state.editing ? this.updateTodo:this.addTodo} 
+            className="btn-info mb-3 form-control"
+            disabled={this.state.newTodo.length < 5}
+          >
             {this.state.editing ? 'Update':'Add Todo'}
           </button>
-
-          <ul className="list-group">
+          {
+            <ul className="list-group">
             
-            {this.state.todos.map(todo=>
-              <ListItem todo={todo}
-               key={todo.id} 
-               editTodo={()=>{this.editTodo(todo.id)}}
-              deleteTodo={()=>{this.deleteTodo(todo.id)}}
-              />
+              {this.state.todos.map(todo=>
+                <ListItem todo={todo}
+                  key={todo.id} 
+                  editTodo={()=>{this.editTodo(todo.id)}}
+                  deleteTodo={()=>{this.deleteTodo(todo.id)}}
+                />
             )}
 
-          </ul>
+           </ul>
+          }
+          
 
         </div>
       </div>
